@@ -13,18 +13,17 @@ env:
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+       - main
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:  
-  build:
-    runs-on: ubuntu-latest  
+  ci_part:
+   runs-on: ubuntu-latest  
     
-    steps:
-      - name: Git clone repo
-      - uses: actions/checkout@v2
+   steps:
+    - name: Git clone repo
+    - uses: actions/checkout@v2
       
-      - name: Create ZIP deployment package
-        run: zip -r ${{ env.DEPLOY_PACK_NAME }} ./ -x *.git*
+    - name: Create ZIP deployment package
+      run: zip -r ${{ env.DEPLOY_PACK_NAME }} ./ -x *.git*
