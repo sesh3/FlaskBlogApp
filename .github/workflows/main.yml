@@ -2,10 +2,10 @@
 
 name: CI-CD-Pipeline-to-AWS-ElasticBeanstalk
 env:
-  EB_PACKAGE_S3_BUCKET_NAME: "test-flask-app-pack"
-  EB_APP_NAME:               "FlaskBlog"
-  EB_ENV_NAME:               "FlaskBlog-env"
-  DEPLOY_PACK_NAME:          "flask_app_${{ github.sha }}.zip"
+  EB_PACKAGE_S3_BUCKET_NAME: "flask-app-packages"
+  EB_APP_NAME:               "MyFlask"
+  EB_ENV_NAME:               "MyFlask-env"
+  DEPLOY_PACKAGE_NAME:          "flask_app_${{ github.sha }}.zip"
   AWS_REGION_NAME:           "eu-central-1"
   
 
@@ -34,8 +34,9 @@ jobs:
         aws-acces-key-id     :  ${{ secrets.AWS_ACCESS_KEY }}
         aws-secrets-acces-key:  ${{ secrets.AWS_SECRET_KEY }}
         aws-region           :  ${{ env.AWS_REGION_NAME }}
+    
     - name: Copy Deployment package to S3 bucket
-      run: aws s3 cp ${{ env.DEPLOY_PACK_NAME }} s3://${{ env.EB_PACKAGE_S3_BUCKET_NAME }}/
+      run: aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.EB_PACKAGE_S3_BUCKET_NAME }}/
     
     - name: Print Massage for CI finish
       run:  echo "CI Pipeline part Finished successfully"
