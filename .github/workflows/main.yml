@@ -1,0 +1,30 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI-CD-Pipeline-to-AWS-ElasticBeanstalk
+env:
+  EB_PACKAGE_S3_BUCKET_NAME: "test-flask-app-pack"
+  EB_APP_NAME:               "FlaskBlog"
+  EB_ENV_NAME:               "FlaskBlog-env"
+  DEPLOY_PACK_NAME:          "flask_app_${{ github.sha }}.zip"
+  AWS_REGION_NAME:           "eu-central-1"
+  
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:  
+  build:
+    runs-on: ubuntu-latest  
+    
+    steps:
+      - name: Git clone repo
+      - uses: actions/checkout@v2
+      
+      - name: Create ZIP deployment package
+        run: zip -r ${{ env.DEPLOY_PACK_NAME }} ./ -x *.git*
