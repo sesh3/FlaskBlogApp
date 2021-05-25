@@ -19,19 +19,19 @@ def get_post(post_id):
 application = Flask(__name__)
 application.config['SECRET_KEY'] = 'your secret key'
 
-@app.route('/')
+@application.route('/')
 def index():
     conn = get_db_connection()
     posts = conn.execute('SELECT * FROM posts').fetchall()
     conn.close()
     return render_template('index.html', posts=posts)
 
-@app.route('/<int:post_id>')
+@application.route('/<int:post_id>')
 def post(post_id):
     post = get_post(post_id)
     return render_template('post.html', post=post)
 
-@app.route('/create', methods=('GET', 'POST'))
+@application.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
         title = request.form['title']
@@ -48,7 +48,7 @@ def create():
             return redirect(url_for('index'))
     return render_template('create.html')
 
-@app.route('/<int:id>/edit', methods=('GET', 'POST'))
+@application.route('/<int:id>/edit', methods=('GET', 'POST'))
 def edit(id):
     post = get_post(id)
 
@@ -69,7 +69,7 @@ def edit(id):
 
     return render_template('edit.html', post=post)
 
-@app.route('/<int:id>/delete', methods=('POST',))
+@application.route('/<int:id>/delete', methods=('POST',))
 def delete(id):
     post = get_post(id)
     conn = get_db_connection()
