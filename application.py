@@ -16,8 +16,8 @@ def get_post(post_id):
         abort(404)
     return post
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your secret key'
+application = Flask(__name__)
+application.config['SECRET_KEY'] = 'your secret key'
 
 @app.route('/')
 def index():
@@ -79,5 +79,6 @@ def delete(id):
     flash('"{}" was successfully deleted!'.format(post['title']))
     return redirect(url_for('index'))
 
-if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+if __name__ == "__main__":
+    application.debug = True
+    application.run()
